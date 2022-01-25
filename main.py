@@ -5,6 +5,8 @@
 from PyMCP2221A import PyMCP2221A
 
 from Neotrellis import Neotrellis
+from PimoroniTrackball import PimoroniTrackball
+from SSD1306Oled import SSD1306Oled
 from SparkButton import SparkButton
 from SparkLedStick import SparkLedStick
 import time
@@ -34,25 +36,38 @@ if __name__ == '__main__':
 
     print("")
 
-    neo = Neotrellis(interface)
-    neo.software_reset()
-    neo.enable_interrupt()
+    # display = SSD1306Oled(interface, 0x3c, 128, 32)
+    # display.init()
+    # display.set_page_address(0)
+    # display.set_column_address(0)
+    # display.send_display_data([0xaa, 0x33]*32)
+    #
+    # display.set_page_address(2)
+    # display.set_column_address(0)
+    # display.send_display_data([0xaa]*128)
+    # display.horizontal_scroll(0,0)
+    # display.set_inverted()
 
-    neo.set_event(0, neo.KEY_PRESSED, True)
-    neo.set_event(1, neo.KEY_PRESSED, True)
-    neo.set_event(2, neo.KEY_PRESSED, True)
-    neo.set_event(3, neo.KEY_PRESSED, True)
-    neo.set_event(4, neo.KEY_PRESSED, True)
-    neo.set_event(15, neo.KEY_PRESSED, True)
-    print(neo.get_events_count())
-
-    while True:
-        count = neo.get_events_count()
-        print(count)
-        if count > 0:
-            print()
-            key = neo.fetch_events(1)[0][0]
-            neo.set_pixel(key, 255,255,255)
+    # display.horizontal_scroll(0,0)
+    # neo = Neotrellis(interface)
+    # neo.software_reset()
+    # neo.enable_interrupt()
+    #
+    # neo.set_event(0, neo.KEY_PRESSED, True)
+    # neo.set_event(1, neo.KEY_PRESSED, True)
+    # neo.set_event(2, neo.KEY_PRESSED, True)
+    # neo.set_event(3, neo.KEY_PRESSED, True)
+    # neo.set_event(4, neo.KEY_PRESSED, True)
+    # neo.set_event(15, neo.KEY_PRESSED, True)
+    # print(neo.get_events_count())
+    #
+    # while True:
+    #     count = neo.get_events_count()
+    #     print(count)
+    #     if count > 0:
+    #         print()
+    #         key = neo.fetch_events(1)[0][0]
+    #         neo.set_pixel(key, 255,255,255)
 
     # button = SparkButton(interface)
     # print(button.get_button_status().isEventAvailable)
@@ -66,3 +81,10 @@ if __name__ == '__main__':
     # print(button.get_debounce_time())
     #
     # button.clear_event_bits()
+
+    trackball = PimoroniTrackball(interface)
+    trackball.set_white(0)
+    while True:
+        time.sleep(5)
+        print(trackball.get_vectors())
+        print(trackball.get_interrupt())
